@@ -7,6 +7,9 @@ const Home = () => {
         if (localStorage.getItem('user')) {
             navigate('/task')
         }
+        else {
+            navigate('/login')
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
     return (
