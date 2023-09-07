@@ -5,6 +5,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import TaskPage from "../pages/TaskPage";
 import Dashboard from "../pages/Dashboard";
+import TaskManage from "../pages/TaskManage";
 
 export const router = createBrowserRouter([
     {
@@ -33,5 +34,9 @@ export const router = createBrowserRouter([
     {
         path: '/dashboard',
         element: <Dashboard />
+    },
+    {
+        path: '/update/:id',
+        element: <TaskManage />
     }
 ])
