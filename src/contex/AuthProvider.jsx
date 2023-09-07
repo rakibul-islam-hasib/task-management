@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
 
 
 
-    const contextValue = { registerUser };
+    const contextValue = { registerUser , user, loader };
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setUser(user);

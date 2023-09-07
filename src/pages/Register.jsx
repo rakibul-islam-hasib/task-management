@@ -2,13 +2,18 @@ import React from 'react';
 import { useAuth } from '../hooks/useAuth';
 
 const Register = () => {
-    const { registerUser } = useAuth();
-    const handleSubmit = (e) => {
+    const { registerUser, user } = useAuth();
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const data = new FormData(e.target);
         const formData = Object.fromEntries(data.entries());
         console.log(formData);
-        registerUser(formData.email, formData.password);
+        await registerUser(formData.email, formData.password);
+        console.log(user)
+        if (user) {
+            localStorage.setItem('userInfo', JSON.stringify(formData))
+        }
+
     }
 
     return (
@@ -24,18 +29,18 @@ const Register = () => {
                             className="border-b mt-5 placeholder:text-purple-600 w-[300px] py-1 focus:outline-none focus:border-purple-600 focus:border-b-2 transition-colors peer" />
 
                     </div>
-                        <input
-                            type="text"
-                            id="bio"
-                            name='bio'
-                            placeholder='bio'
-                            className="border-b mt-5 placeholder:text-purple-600 w-[300px] py-1 focus:outline-none focus:border-purple-600 focus:border-b-2 transition-colors peer" />
-                        <input
-                            type="text"
-                            id="photoURL"
-                            name='photoURL'
-                            placeholder='photoURL'
-                            className="border-b mt-5 placeholder:text-purple-600 w-[300px] py-1 focus:outline-none focus:border-purple-600 focus:border-b-2 transition-colors peer" />
+                    <input
+                        type="text"
+                        id="bio"
+                        name='bio'
+                        placeholder='bio'
+                        className="border-b mt-5 placeholder:text-purple-600 w-[300px] py-1 focus:outline-none focus:border-purple-600 focus:border-b-2 transition-colors peer" />
+                    <input
+                        type="text"
+                        id="photoURL"
+                        name='photoURL'
+                        placeholder='photoURL'
+                        className="border-b mt-5 placeholder:text-purple-600 w-[300px] py-1 focus:outline-none focus:border-purple-600 focus:border-b-2 transition-colors peer" />
 
                     <input
                         type="password"
