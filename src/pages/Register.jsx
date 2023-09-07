@@ -1,59 +1,46 @@
-import React from 'react';
-import { useAuth } from '../hooks/useAuth';
+// Register.js
+import React, { useState } from 'react';
 
-const Register = () => {
-    const { registerUser, user } = useAuth();
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const data = new FormData(e.target);
-        const formData = Object.fromEntries(data.entries());
-        console.log(formData);
-        await registerUser(formData.email, formData.password);
-        console.log(user)
-        if (user) {
-            localStorage.setItem('userInfo', JSON.stringify(formData))
+const Register = ({ onRegister }) => {
+    // State for registration form fields
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleRegister = () => {
+        // Validate and register the user
+        if (username.trim() === '' || password.trim() === '') {
+            alert('Please enter a username and password.');
+            return;
         }
 
-    }
+        // Store user data in local storage (you can replace this with an API call)
+        const userData = { username, password };
+        localStorage.setItem('user', JSON.stringify(userData));
+
+        // Clear form fields
+        setUsername('');
+        setPassword('');
+
+        // Call the callback function to inform the parent component
+        onRegister(userData);
+    };
 
     return (
         <div>
-            <div className="flex items-center justify-center h-screen">
-                <form onSubmit={e => handleSubmit(e)} className="flex flex-col">
-                    <div className="relative">
-                        <input
-                            placeholder='username'
-                            type="email"
-                            required
-                            name='email'
-                            className="border-b mt-5 placeholder:text-purple-600 w-[300px] py-1 focus:outline-none focus:border-purple-600 focus:border-b-2 transition-colors peer" />
-
-                    </div>
-                    <input
-                        type="text"
-                        id="bio"
-                        name='bio'
-                        placeholder='bio'
-                        className="border-b mt-5 placeholder:text-purple-600 w-[300px] py-1 focus:outline-none focus:border-purple-600 focus:border-b-2 transition-colors peer" />
-                    <input
-                        type="text"
-                        id="photoURL"
-                        name='photoURL'
-                        placeholder='photoURL'
-                        className="border-b mt-5 placeholder:text-purple-600 w-[300px] py-1 focus:outline-none focus:border-purple-600 focus:border-b-2 transition-colors peer" />
-
-                    <input
-                        type="password"
-                        name='password'
-                        placeholder='password'
-                        className="border-b mt-5 placeholder:text-purple-600 w-[300px] py-1 focus:outline-none focus:border-purple-600 focus:border-b-2 transition-colors peer" />
-
-                    <div className="mt-5">
-                        <button type='submit' className='w-[300px] bg-purple-600 text-white font-bold py-3'>Register</button>
-                    </div>
-                </form>
-            </div>
-
+            <h2>Register</h2>
+            <input
+                type="text"
+                placeholder="Username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+            />
+            <button onClick={handleRegister}>Register</button>
         </div>
     );
 };
