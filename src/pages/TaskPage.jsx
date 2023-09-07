@@ -92,7 +92,7 @@ const TaskPage = ({ id, thisTask, data = [] }) => {
         </button>
       </div>
       <TaskList
-        tasks={tasks}
+        tasks={tasks.filter((task, isx) => isx > 0)}
         onDelete={deleteTask}
         onUpdate={updateTask}
         onEdit={startEditingTask}
