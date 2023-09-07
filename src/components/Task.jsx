@@ -4,6 +4,7 @@ import { FiTrash2, FiEdit } from 'react-icons/fi';
 const Task = ({ task, onDelete, onUpdate }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [newTaskText, setNewTaskText] = useState(task.text);
+    const [newTaskStatus, setNewTaskStatus] = useState(task.status);
 
     const handleDelete = () => {
         onDelete(task.id);
@@ -14,22 +15,27 @@ const Task = ({ task, onDelete, onUpdate }) => {
     };
 
     const handleSave = () => {
-        onUpdate(task.id, newTaskText);
+        onUpdate(task.id, newTaskText, newTaskStatus); // Update text and status
         setIsEditing(false);
     };
 
     return (
         <div className="border p-2 flex items-center justify-between mb-2">
-            {isEditing ? (
-                <input
-                    type="text"
-                    className="border rounded px-2 py-1 w-3/4"
-                    value={newTaskText}
-                    onChange={(e) => setNewTaskText(e.target.value)}
-                />
-            ) : (
-                <div className="w-3/4">{task.text}</div>
-            )}
+            <div className="flex w-3/4">
+                {isEditing ? (
+                    <input
+                        type="text"
+                        className="border rounded px-2 py-1 w-3/4 mb-2"
+                        value={newTaskText}
+                        onChange={(e) => setNewTaskText(e.target.value)}
+                    />
+                ) : (
+                    <div className="w-full">{task.text}</div>
+                )}
+                {!isEditing && (
+                    <div className="w-1/4 ml-2 text-gray-600">{task.status}</div>
+                )}
+            </div>
             <div>
                 {isEditing ? (
                     <button

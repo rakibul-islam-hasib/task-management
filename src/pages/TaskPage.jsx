@@ -1,26 +1,32 @@
 import React, { useState, useEffect } from 'react';
-// import TaskList from './TaskList';
 import { FiPlus } from 'react-icons/fi';
 import TaskList from '../components/TaskList';
 
-const App = () => {
-  const [tasks, setTasks] = useState([]);
+const TaskPage = () => {
+  // const [tasks, const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem('tasks')) || []);setTasks] = useState(localStorage.getItem('tasks') || []);
+  const [tasks, setTasks] = useState(JSON.parse(localStorage.getItem('tasks')) || []);
   const [newTask, setNewTask] = useState('');
+  const [newStatus, setNewStatus] = useState('pending'); // Initial status
 
-  // Load tasks from local storage on initial render
+  // Load tasks from local storage when the component mounts and when tasks change
   useEffect(() => {
-    const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
+    const storedTasks = JSON.parse(localStorage.getItem('tasks'));
     setTasks(storedTasks);
   }, []);
 
-  // Save tasks to local storage whenever tasks change
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks));
   }, [tasks]);
 
   const addTask = () => {
     if (newTask.trim() !== '') {
-      setTasks([...tasks, { id: Date.now(), text: newTask }]);
+      const task = {
+        id: Date.now(),
+        text: newTask,
+        status: newStatus, // Set the initial status
+      };
+
+      setTasks([...tasks, task]);
       setNewTask('');
     }
   };
@@ -30,9 +36,9 @@ const App = () => {
     setTasks(updatedTasks);
   };
 
-  const updateTask = (taskId, newText) => {
+  const updateTask = (taskId, newText, newStatus) => {
     const updatedTasks = tasks.map((task) =>
-      task.id === taskId ? { ...task, text: newText } : task
+      task.id === taskId ? { ...task, text: newText, status: newStatus } : task
     );
     setTasks(updatedTasks);
   };
@@ -48,6 +54,16 @@ const App = () => {
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
         />
+        <select
+          className="border rounded px-2 py-1 ml-2"
+          value={newStatus}
+          onChange={(e) => setNewStatus(e.target.value)}
+        >
+          <option value="pending">Pending</option>
+          <option value="working">Working</option>
+          <option value="submitted">Submitted</option>
+          <option value="completed">Completed</option>
+        </select>
         <button
           className="bg-blue-500 text-white px-2 py-1 rounded ml-2"
           onClick={addTask}
@@ -60,4 +76,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default TaskPage;

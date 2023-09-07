@@ -1,16 +1,14 @@
 // Register.js
 import React, { useState } from 'react';
 import { FiUser, FiLock } from 'react-icons/fi';
-import { Navigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const Register = ({ onRegister }) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const navigate = useNavigate();
     const handleRegister = () => {
-        if (localStorage.getItem('user') != null) {
-            return <Navigate to="/login" />;
-        }
+      
         if (username.trim() === '' || password.trim() === '') {
             alert('Please enter a username and password.');
             return;
@@ -21,7 +19,9 @@ const Register = ({ onRegister }) => {
 
         setUsername('');
         setPassword('');
-       
+        // If user then navigate to /task page 
+        navigate('/task');
+        console.log('Register', userData)
     };
 
     return (
