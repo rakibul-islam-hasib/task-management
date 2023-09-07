@@ -5,10 +5,14 @@ const Dashboard = () => {
     const userInfo = JSON.parse(localStorage.getItem('user'));
     const navigate = useNavigate();
 
+
     // Step 1: Create a state variable to hold tasks
     const [tasks, setTasks] = useState([]);
     const [taskInput, setTaskInput] = useState('');
 
+    useEffect(() => {
+        setTasks(JSON.parse(localStorage.getItem('tasks')) || []);
+    }, [])
     useEffect(() => {
         if (!localStorage.getItem('user')) {
             navigate('/login');

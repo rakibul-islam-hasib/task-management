@@ -2,6 +2,7 @@ import React from 'react';
 import Task from './Task';
 
 const TaskList = ({ tasks, onDelete, onUpdate }) => {
+  console.log(tasks)
   return (
     <div className=''>
       <h1>Task name ---------&gt; status --------&gt; </h1>

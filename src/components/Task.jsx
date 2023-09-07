@@ -15,49 +15,68 @@ const Task = ({ task, onDelete, onUpdate }) => {
     };
 
     const handleSave = () => {
-        onUpdate(task.id, newTaskText, newTaskStatus); // Update text and status
+        onUpdate(task.id, newTaskText, newTaskStatus);
         setIsEditing(false);
     };
 
     return (
-        <div className="border p-2 flex items-center justify-between mb-2">
-            <div className="flex w-3/4">
-                {isEditing ? (
-                    <input
-                        type="text"
-                        className="border rounded px-2 py-1 w-3/4 mb-2"
-                        value={newTaskText}
-                        onChange={(e) => setNewTaskText(e.target.value)}
-                    />
-                ) : (
-                    <div className="w-full">{task.text}</div>
-                )}
-                {!isEditing && (
-                    <div className="w-1/4 ml-2 text-gray-600">{task.status}</div>
-                )}
-            </div>
-            <div>
-                {isEditing ? (
-                    <button
-                        className="bg-green-500 text-white px-2 py-1 rounded mr-2"
-                        onClick={handleSave}
-                    >
-                        Save
-                    </button>
-                ) : (
-                    <button
-                        className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
-                        onClick={handleEdit}
-                    >
-                        <FiEdit />
-                    </button>
-                )}
-                <button
-                    className="bg-red-500 text-white px-2 py-1 rounded"
-                    onClick={handleDelete}
-                >
-                    <FiTrash2 />
-                </button>
+        <div className={`border p-3 rounded mb-2 ${isEditing ? 'bg-gray-100' : 'bg-white'}`}>
+            <div className="flex items-center justify-between">
+                <div className="flex w-full">
+                    {isEditing ? (
+                        <input
+                            type="text"
+                            className="border rounded px-2 py-1 w-full"
+                            value={newTaskText}
+                            onChange={(e) => setNewTaskText(e.target.value)}
+                        />
+                    ) : (
+                        <div className={`w-full text-lg ${task.status === 'completed' ? 'line-through text-gray-500' : ''}`}>
+                            {task.text}
+                        </div>
+                    )}
+                </div>
+                <div className="flex items-center">
+                    {isEditing ? (
+                        <select
+                            className="border rounded px-2 py-1 ml-2"
+                            value={newTaskStatus}
+                            onChange={(e) => setNewTaskStatus(e.target.value)}
+                        >
+                            <option value="pending">Pending</option>
+                            <option value="working">Working</option>
+                            <option value="submitted">Submitted</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                    ) : (
+                        <div className={`ml-2 text-gray-600 ${task.status === 'completed' ? 'line-through' : ''}`}>
+                            {task.status}
+                        </div>
+                    )}
+                    <div className="ml-2 flex">
+                        {isEditing ? (
+                            <button
+                                className="bg-green-500 text-white px-2 py-1 rounded mr-2"
+                                onClick={handleSave}
+                            >
+                                Save
+                            </button>
+                        ) : (
+                            <button
+                                className="bg-lime-500 text-white px-2 py-1 rounded mr-2"
+                                onClick={handleEdit}
+                            >
+                                <FiEdit />
+                            </button>
+                        )}
+                        <button
+                            className="bg-red-500 text-white px-2 py-1 rounded"
+                            onClick={handleDelete}
+                        >
+                            <FiTrash2 />
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     );
