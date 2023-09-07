@@ -7,18 +7,21 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loader, setLoader] = useState(true);
     const registerUser = async (email, password) => {
+        setLoader(true);
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            const user = userCredential.user;
+            await createUserWithEmailAndPassword(auth, email, password);
         } catch (error) {
             console.log(error);
+        }
+        finally {
+            setLoader(false);
         }
     };
 
 
 
 
-    const contextValue = { registerUser };
+    const contextValue = { registerUser , user, loader };
     useEffect(() => {
         const unsubscribe = auth.onAuthStateChanged((user) => {
             setUser(user);
@@ -33,7 +36,7 @@ const AuthProvider = ({ children }) => {
         });
 
         return () => unsubscribe();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
         <AuthContext.Provider value={contextValue}>
