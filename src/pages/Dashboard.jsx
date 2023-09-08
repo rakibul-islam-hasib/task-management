@@ -4,7 +4,7 @@ import { FaPenAlt } from 'react-icons/fa';
 const Dashboard = () => {
     const userInfo = JSON.parse(localStorage.getItem('user'));
     const navigate = useNavigate();
-
+    const user = localStorage.getItem('user');
 
     // Step 1: Create a state variable to hold tasks
     const [tasks, setTasks] = useState([]);
